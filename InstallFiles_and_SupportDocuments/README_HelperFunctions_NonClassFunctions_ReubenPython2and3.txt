@@ -16,7 +16,7 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision F, 08/29/2022
+Software Revision G, 09/21/2022
 
 Verified working on: 
 Python 2.7, 3.8.

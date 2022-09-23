@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision F, 08/29/2022
+Software Revision G, 09/21/2022
 
 Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (no Mac testing yet).
 '''
@@ -966,66 +966,72 @@ def IsModuleNameStringInPythonStdLibrary(ModuleNameStringToCheck, PythonVersion 
 ##########################################################################################################
 def SetAllFTDIdevicesLatencyTimer(FTDI_LatencyTimer_ToBeSet = 1):
 
-    FTDI_LatencyTimer_ToBeSet = LimitNumber_IntOutputOnly(1, 16, FTDI_LatencyTimer_ToBeSet)
+    try:
+        FTDI_LatencyTimer_ToBeSet = LimitNumber_IntOutputOnly(1, 16, FTDI_LatencyTimer_ToBeSet)
 
-    FTDI_DeviceList = ftd2xx.listDevices()
-    print("FTDI_DeviceList: " + str(FTDI_DeviceList))
+        FTDI_DeviceList = ftd2xx.listDevices()
+        print("FTDI_DeviceList: " + str(FTDI_DeviceList))
 
-    if FTDI_DeviceList != None:
+        if FTDI_DeviceList != None:
 
-        for Index, FTDI_SerialNumber in enumerate(FTDI_DeviceList):
+            for Index, FTDI_SerialNumber in enumerate(FTDI_DeviceList):
 
-            #################################
-            try:
-                if sys.version_info[0] < 3: #Python 2
-                    FTDI_SerialNumber = str(FTDI_SerialNumber)
-                else:
-                    FTDI_SerialNumber = FTDI_SerialNumber.decode('utf-8')
+                #################################
+                try:
+                    if sys.version_info[0] < 3: #Python 2
+                        FTDI_SerialNumber = str(FTDI_SerialNumber)
+                    else:
+                        FTDI_SerialNumber = FTDI_SerialNumber.decode('utf-8')
 
-                FTDI_Object = ftd2xx.open(Index)
-                FTDI_DeviceInfo = FTDI_Object.getDeviceInfo()
+                    FTDI_Object = ftd2xx.open(Index)
+                    FTDI_DeviceInfo = FTDI_Object.getDeviceInfo()
 
-                '''
-                print("FTDI device with serial number " +
-                      str(FTDI_SerialNumber) +
-                      ", DeviceInfo: " +
-                      str(FTDI_DeviceInfo))
-                '''
+                    '''
+                    print("FTDI device with serial number " +
+                          str(FTDI_SerialNumber) +
+                          ", DeviceInfo: " +
+                          str(FTDI_DeviceInfo))
+                    '''
 
-            except:
-                exceptions = sys.exc_info()[0]
-                print("FTDI device with serial number " + str(FTDI_SerialNumber) + ", could not open FTDI device, Exceptions: %s" % exceptions)
-            #################################
+                except:
+                    exceptions = sys.exc_info()[0]
+                    print("FTDI device with serial number " + str(FTDI_SerialNumber) + ", could not open FTDI device, Exceptions: %s" % exceptions)
+                #################################
 
-            #################################
-            try:
-                FTDI_Object.setLatencyTimer(FTDI_LatencyTimer_ToBeSet)
-                time.sleep(0.005)
+                #################################
+                try:
+                    FTDI_Object.setLatencyTimer(FTDI_LatencyTimer_ToBeSet)
+                    time.sleep(0.005)
 
-                FTDI_LatencyTimer_ReceivedFromDevice = FTDI_Object.getLatencyTimer()
-                FTDI_Object.close()
+                    FTDI_LatencyTimer_ReceivedFromDevice = FTDI_Object.getLatencyTimer()
+                    FTDI_Object.close()
 
-                if FTDI_LatencyTimer_ReceivedFromDevice == FTDI_LatencyTimer_ToBeSet:
-                    SuccessString = "succeeded!"
-                else:
-                    SuccessString = "failed!"
+                    if FTDI_LatencyTimer_ReceivedFromDevice == FTDI_LatencyTimer_ToBeSet:
+                        SuccessString = "succeeded!"
+                    else:
+                        SuccessString = "failed!"
 
-                print("FTDI device with serial number " +
-                      str(FTDI_SerialNumber) +
-                      " commanded setLatencyTimer(" +
-                      str(FTDI_LatencyTimer_ToBeSet) +
-                      "), and getLatencyTimer() returned: " +
-                      str(FTDI_LatencyTimer_ReceivedFromDevice) +
-                      ", so command " +
-                      SuccessString)
+                    print("FTDI device with serial number " +
+                          str(FTDI_SerialNumber) +
+                          " commanded setLatencyTimer(" +
+                          str(FTDI_LatencyTimer_ToBeSet) +
+                          "), and getLatencyTimer() returned: " +
+                          str(FTDI_LatencyTimer_ReceivedFromDevice) +
+                          ", so command " +
+                          SuccessString)
 
-            except:
-                exceptions = sys.exc_info()[0]
-                print("FTDI device with serial number " + str(FTDI_SerialNumber) + ", could not set/get Latency Timer, Exceptions: %s" % exceptions)
-            #################################
+                except:
+                    exceptions = sys.exc_info()[0]
+                    print("FTDI device with serial number " + str(FTDI_SerialNumber) + ", could not set/get Latency Timer, Exceptions: %s" % exceptions)
+                #################################
 
-    else:
-        print("SetAllFTDIdevicesLatencyTimer ERROR: FTDI_DeviceList is empty, cannot proceed.")
+        else:
+            print("SetAllFTDIdevicesLatencyTimer ERROR: FTDI_DeviceList is empty, cannot proceed.")
+
+    except:
+        exceptions = sys.exc_info()[0]
+        print("SetAllFTDIdevicesLatencyTimer, Exceptions: %s" % exceptions)
+
 ##########################################################################################################
 ##########################################################################################################
 
