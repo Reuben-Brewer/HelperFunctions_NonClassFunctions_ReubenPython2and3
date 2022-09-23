@@ -28,9 +28,9 @@ Raspberry Pi Buster
 
 ########################### Python module installation instructions, all OS's
 
-HelperFunctions_NonClassFunctions_ReubenPython2and3, ListOfModuleDependencies: ['ftd2xx', 'future.builtins', 'stdlib_list']
+HelperFunctions_NonClassFunctions_ReubenPython2and3, ListOfModuleDependencies: ['ftd2xx', 'future.builtins', 'serial', 'serial.tools', 'stdlib_list']
 HelperFunctions_NonClassFunctions_ReubenPython2and3, ListOfModuleDependencies_TestProgram: []
 HelperFunctions_NonClassFunctions_ReubenPython2and3, ListOfModuleDependencies_NestedLayers: []
-HelperFunctions_NonClassFunctions_ReubenPython2and3, ListOfModuleDependencies_All: ['ftd2xx', 'future.builtins', 'stdlib_list']
+HelperFunctions_NonClassFunctions_ReubenPython2and3, ListOfModuleDependencies_All:['ftd2xx', 'future.builtins', 'serial', 'serial.tools', 'stdlib_list']
 
 ###########################
